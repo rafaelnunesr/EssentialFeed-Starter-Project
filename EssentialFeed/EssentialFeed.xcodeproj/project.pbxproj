@@ -13,6 +13,7 @@
 		1B0847E42CFFA02D003F2778 /* RemoteFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0847E32CFFA02D003F2778 /* RemoteFeedLoaderTests.swift */; };
 		1B0847E72CFFC9B6003F2778 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0847E62CFFC9B5003F2778 /* RemoteFeedLoader.swift */; };
 		1BA5C1F12D04D93F004A1BCD /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5C1F02D04D93F004A1BCD /* HTTPClient.swift */; };
+		1BA5C1F32D04D9BB004A1BCD /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		1B0847E32CFFA02D003F2778 /* RemoteFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTests.swift; sourceTree = "<group>"; };
 		1B0847E62CFFC9B5003F2778 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		1BA5C1F02D04D93F004A1BCD /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		080EDF1021B6DFA200813479 /* Feed Feature */ = {
 			isa = PBXGroup;
 			children = (
+				1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */,
 				080EDF0B21B6DAE800813479 /* FeedItem.swift */,
 				080EDF0D21B6DCB600813479 /* FeedLoader.swift */,
 			);
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BA5C1F32D04D9BB004A1BCD /* FeedItemsMapper.swift in Sources */,
 				080EDF0E21B6DCB600813479 /* FeedLoader.swift in Sources */,
 				1B0847E72CFFC9B6003F2778 /* RemoteFeedLoader.swift in Sources */,
 				080EDF0C21B6DAE800813479 /* FeedItem.swift in Sources */,
