@@ -13,6 +13,7 @@
 		1B0847E72CFFC9B6003F2778 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0847E62CFFC9B5003F2778 /* RemoteFeedLoader.swift */; };
 		1BA5C1F12D04D93F004A1BCD /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5C1F02D04D93F004A1BCD /* HTTPClient.swift */; };
 		1BA5C1F32D04D9BB004A1BCD /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */; };
+		1BD9C0A92D0B7BB000B091A9 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD9C0A82D0B7BAE00B091A9 /* URLSessionHTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		1B0847E62CFFC9B5003F2778 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		1BA5C1F02D04D93F004A1BCD /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
+		1BD9C0A82D0B7BAE00B091A9 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -110,6 +112,7 @@
 		1B0847E52CFFC99C003F2778 /* Feed API */ = {
 			isa = PBXGroup;
 			children = (
+				1BD9C0A82D0B7BAE00B091A9 /* URLSessionHTTPClient.swift */,
 				1B0847E62CFFC9B5003F2778 /* RemoteFeedLoader.swift */,
 				1BA5C1F02D04D93F004A1BCD /* HTTPClient.swift */,
 			);
@@ -235,6 +238,7 @@
 				1B0847E72CFFC9B6003F2778 /* RemoteFeedLoader.swift in Sources */,
 				080EDF0C21B6DAE800813479 /* FeedItem.swift in Sources */,
 				1BA5C1F12D04D93F004A1BCD /* HTTPClient.swift in Sources */,
+				1BD9C0A92D0B7BB000B091A9 /* URLSessionHTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
