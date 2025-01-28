@@ -76,7 +76,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XJM-xJ-UMM">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XJM-xJ-UMM" userLabel="Description Container">
                                                     <rect key="frame" x="0.0" y="409" width="349" height="57"/>
                                                     <string key="text">Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description Label Description</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -98,6 +98,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="descriptionContainer" destination="XJM-xJ-UMM" id="Ui3-ao-Hpg"/>
                                     <outlet property="descriptionLabel" destination="XJM-xJ-UMM" id="mh7-8p-X26"/>
                                     <outlet property="feedImageView" destination="DhI-SH-kKt" id="YwM-9R-B3c"/>
                                     <outlet property="locationContainer" destination="l9f-XP-wWW" id="zVe-73-zaz"/>
