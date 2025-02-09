@@ -33,13 +33,13 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
 
         loader.completeFeedLoading(at: 0)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes successfully")
 
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once use initiates a reload")
 
-        loader.completeFeedLoading(at: 1)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading is completed")
+        loader.completeFeedLoadingWithError(at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
     
     func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
@@ -69,7 +69,7 @@ final class FeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
         
         sut.simulateUserInitiatedFeedReload()
-        loader.simulateFeedLoadingWithError(at: 1)
+        loader.completeFeedLoadingWithError(at: 1)
         assertThat(sut, isRendering: [image0])
     }
     
@@ -127,7 +127,7 @@ final class FeedViewControllerTests: XCTestCase {
             completions[index](.success(feed))
         }
         
-        func simulateFeedLoadingWithError(at index: Int = 0) {
+        func completeFeedLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             completions[index](.failure(error))
         }
