@@ -46,10 +46,6 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         onViewIsAppearing?(self)
     }
     
-//    @objc private func load() {
-//        refreshController?.refresh()
-//    }
-    
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
     }
