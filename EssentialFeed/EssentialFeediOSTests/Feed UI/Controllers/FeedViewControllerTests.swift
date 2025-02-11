@@ -106,7 +106,6 @@ final class FeedViewControllerTests: XCTestCase {
         loader.completeImageLoadingWithError(at: 1)
         XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false, "Expected no loading indicator for state change for first view once secopnd image loading completes with error")
         XCTAssertEqual(view1?.isShowingImageLoadingIndicator, false, "Expected no loading indicator indicator for second view once second image loading completed with error")
-       
     }
     
     func test_feedImageViewLoadingIndicator_isVisibleWhileLoadingImage() {
@@ -273,6 +272,7 @@ private extension FeedViewController {
         }
         
         refreshControl = fake
+        refreshController?.view = fake
     }
 }
 
