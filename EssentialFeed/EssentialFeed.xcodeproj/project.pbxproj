@@ -161,19 +161,12 @@
 			);
 			target = 1BCA0A352D4AC3B00086CB70 /* EssentialFeediOSTests */;
 		};
-		1BFC480A2D6EA75600C8B433 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Feed Presentation/Untitled.swift",
-			);
-			target = 1BCA0A2C2D4AC3B00086CB70 /* EssentialFeediOS */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1B0D48002D1B28A3002C8DC3 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (1B0D48032D1B28A3002C8DC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 1BD008D32D4070BD00CAC2DF /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 1BEC8A602D4FF33D00AC58A7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
 		1BA5C1F42D04E1DE004A1BCD /* Feed API */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Feed API"; sourceTree = "<group>"; };
-		1BCA0A2E2D4AC3B00086CB70 /* EssentialFeediOS */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (1BFC480A2D6EA75600C8B433 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOS; sourceTree = "<group>"; };
+		1BCA0A2E2D4AC3B00086CB70 /* EssentialFeediOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOS; sourceTree = "<group>"; };
 		1BCA0A3A2D4AC3B00086CB70 /* EssentialFeediOSTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOSTests; sourceTree = "<group>"; };
 		1BCC86EE2D0CAEEF001397EF /* EssentialFeedAPIEndToEndTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedAPIEndToEndTests; sourceTree = "<group>"; };
 		1BD008C82D406D3300CAC2DF /* EssentialFeedCacheIntegrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedCacheIntegrationTests; sourceTree = "<group>"; };
