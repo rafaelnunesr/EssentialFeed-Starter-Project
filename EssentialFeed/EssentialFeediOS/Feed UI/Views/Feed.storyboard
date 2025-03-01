@@ -114,6 +114,7 @@
                         <connections>
                             <outlet property="dataSource" destination="3fW-Zs-NY8" id="CWu-RV-GAa"/>
                             <outlet property="delegate" destination="3fW-Zs-NY8" id="ypa-Au-TUB"/>
+                            <outlet property="prefetchDataSource" destination="3fW-Zs-NY8" id="0M9-RV-aFm"/>
                         </connections>
                     </tableView>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="d2s-LB-she">
