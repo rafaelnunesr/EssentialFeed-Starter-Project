@@ -7,16 +7,8 @@
 
 import Foundation
 
-public struct FeedViewModel {
-    public let feed: [FeedImage]
-}
-
 public protocol FeedView {
     func display(_ viewModel: FeedViewModel)
-}
-
-public struct FeedLoadingViewModel {
-    public let isLoading: Bool
 }
 
 public protocol FeedLoadingView {
