@@ -15,9 +15,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="kCB-lF-9Be" customClass="ErrorView" customModule="MVVM" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Tx-6p-20I">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="8" maxX="0.0" maxY="8"/>
+                                    <state key="normal" title="Error label">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="hideMessage" destination="kCB-lF-9Be" eventType="touchUpInside" id="KpS-Hp-l29"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.99951404330000004" green="0.41759261489999999" blue="0.4154433012" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <gestureRecognizers/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="1Tx-6p-20I" secondAttribute="bottom" id="UVP-02-p6C"/>
+                                <constraint firstItem="1Tx-6p-20I" firstAttribute="leading" secondItem="kCB-lF-9Be" secondAttribute="leading" id="ik1-7y-hUH"/>
+                                <constraint firstItem="1Tx-6p-20I" firstAttribute="top" secondItem="kCB-lF-9Be" secondAttribute="top" id="k3e-zS-8Bt"/>
+                                <constraint firstAttribute="trailing" secondItem="1Tx-6p-20I" secondAttribute="trailing" id="lav-qu-dbK"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="button" destination="1Tx-6p-20I" id="0rb-ug-K6H"/>
+                            </connections>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="500" id="07n-2o-p7d" customClass="FeedImageCell" customModule="EssentialFeediOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="393" height="500"/>
+                                <rect key="frame" x="0.0" y="84" width="393" height="500"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="07n-2o-p7d" id="ioM-fb-2NM">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="500"/>
