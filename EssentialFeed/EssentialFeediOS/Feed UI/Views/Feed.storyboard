@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="C1n-1f-dEE" customClass="ErrorView" customModule="MVP" customModuleProvider="target">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="C1n-1f-dEE" customClass="ErrorView" customModule="EssentialFeediOS" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -36,6 +36,9 @@
                                 <constraint firstItem="yzL-XH-YZC" firstAttribute="top" secondItem="C1n-1f-dEE" secondAttribute="top" id="baa-ki-haD"/>
                                 <constraint firstAttribute="trailing" secondItem="yzL-XH-YZC" secondAttribute="trailing" id="kKC-t8-DXJ"/>
                             </constraints>
+                            <connections>
+                                <outlet property="button" destination="yzL-XH-YZC" id="FGX-2T-wBx"/>
+                            </connections>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="500" id="07n-2o-p7d" customClass="FeedImageCell" customModule="EssentialFeediOS" customModuleProvider="target">
