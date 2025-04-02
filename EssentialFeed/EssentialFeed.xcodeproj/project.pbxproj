@@ -56,6 +56,8 @@
 		1BB372CA2D8F118100FF629C /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BB372C22D8F0E8900FF629C /* Feed.strings */; };
 		1BB5C8802D95E6FE00C03C66 /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB5C87F2D95E6FB00C03C66 /* HTTPURLResponse+StatusCode.swift */; };
 		1BB5C8822D95E72700C03C66 /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB5C8812D95E71B00C03C66 /* RemoteFeedImageDataLoader.swift */; };
+		1BBD5E0B2D9DD8C300219C61 /* FeedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBD5E0A2D9DD8C200219C61 /* FeedCache.swift */; };
+		1BBD5E182D9DDC4A00219C61 /* FeedImageDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBD5E172D9DDC3B00219C61 /* FeedImageDataCache.swift */; };
 		1BCA0A372D4AC3B00086CB70 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCA0A2D2D4AC3B00086CB70 /* EssentialFeediOS.framework */; };
 		1BCC86F12D0CAEEF001397EF /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		1BD008CB2D406D3300CAC2DF /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
@@ -172,6 +174,8 @@
 		1BB372C82D8F10C000FF629C /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		1BB5C87F2D95E6FB00C03C66 /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
 		1BB5C8812D95E71B00C03C66 /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
+		1BBD5E0A2D9DD8C200219C61 /* FeedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCache.swift; sourceTree = "<group>"; };
+		1BBD5E172D9DDC3B00219C61 /* FeedImageDataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataCache.swift; sourceTree = "<group>"; };
 		1BCA0A272D4AC1640086CB70 /* EssentialFeedAPIEndToEndTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EssentialFeedAPIEndToEndTests.xctestplan; sourceTree = "<group>"; };
 		1BCA0A2D2D4AC3B00086CB70 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCA0A362D4AC3B00086CB70 /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -326,6 +330,8 @@
 		080EDF1021B6DFA200813479 /* Feed Feature */ = {
 			isa = PBXGroup;
 			children = (
+				1BBD5E172D9DDC3B00219C61 /* FeedImageDataCache.swift */,
+				1BBD5E0A2D9DD8C200219C61 /* FeedCache.swift */,
 				1BA6EC972D94922300EBC7F3 /* FeedImageDataLoader.swift */,
 				1BA5C1F22D04D9B4004A1BCD /* FeedItemsMapper.swift */,
 				080EDF0B21B6DAE800813479 /* FeedImage.swift */,
@@ -744,10 +750,12 @@
 				1B492C9F2D1E35E5002B8413 /* LocalFeedLoader.swift in Sources */,
 				1B12A1202D99B18A00FC038E /* FeedImageDataStore.swift in Sources */,
 				080EDF0C21B6DAE800813479 /* FeedImage.swift in Sources */,
+				1BBD5E0B2D9DD8C300219C61 /* FeedCache.swift in Sources */,
 				1B12A12E2D99D2A800FC038E /* CoreDataFeedStore+FeedImageDataLoader.swift in Sources */,
 				1BA5C1F12D04D93F004A1BCD /* HTTPClient.swift in Sources */,
 				1BB372C92D8F10C700FF629C /* FeedPresenter.swift in Sources */,
 				1BD9C0A92D0B7BB000B091A9 /* URLSessionHTTPClient.swift in Sources */,
+				1BBD5E182D9DDC4A00219C61 /* FeedImageDataCache.swift in Sources */,
 				1BB5C8802D95E6FE00C03C66 /* HTTPURLResponse+StatusCode.swift in Sources */,
 				1B41A2112D38655800D36B2A /* ManagedCache.swift in Sources */,
 				1BA6ECDD2D94998400EBC7F3 /* FeedImageDataLoader.swift in Sources */,
@@ -1009,6 +1017,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = EssentialFeed/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1040,6 +1049,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = EssentialFeed/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
