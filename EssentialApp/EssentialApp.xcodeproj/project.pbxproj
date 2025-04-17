@@ -233,6 +233,7 @@
 					};
 					1BDA6A2B2DB1814700CD1881 = {
 						CreatedOnToolsVersion = 16.3;
+						LastSwiftMigration = 1630;
 						TestTargetID = 1BCD9B3D2D99E0D600F5E760;
 					};
 				};
@@ -537,6 +538,7 @@
 		1BDA6A352DB1814700CD1881 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R75SA9L9QH;
@@ -546,6 +548,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rafael.EssentialAppAcceptanceUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = EssentialApp;
@@ -555,6 +558,7 @@
 		1BDA6A362DB1814700CD1881 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R75SA9L9QH;
