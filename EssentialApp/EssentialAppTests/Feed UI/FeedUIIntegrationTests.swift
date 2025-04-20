@@ -16,7 +16,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         
         XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
     }
@@ -25,7 +25,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
         XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loaded")
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
 
         sut.simulateUserInitiatedFeedReload()
@@ -38,7 +38,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
 
         loader.completeFeedLoading(at: 0)
@@ -58,7 +58,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image3 = makeImage(description: nil, location: nil)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         assertThat(sut, isRendering: [])
         
         loader.completeFeedLoading(with: [image0], at: 0)
@@ -69,11 +69,22 @@ final class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [image0, image1, image2, image3])
     }
     
+    func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
+        let (sut, loader) = makeSUT()
+        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view appears")
+        
+        sut.simulateAppearance()
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view appears")
+        
+        sut.simulateAppearance()
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected no loading request the second time view appears")
+    }
+    
     func test_loadFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let image0 = makeImage()
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
@@ -87,7 +98,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until views become visible")
         
@@ -101,7 +112,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_feedImageView_cancelsImageLoadingWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         let view0 = sut.simulateFeedImageViewVisible(at: 0)
         let view1 = sut.simulateFeedImageViewVisible(at: 1)
@@ -122,7 +133,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no cancelled image URL requests until image is not visible")
         
@@ -136,7 +147,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_feedImageView_rendersImageLoadedFromURL() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         
         let view0 = sut.simulateFeedImageViewVisible(at: 0)
@@ -158,7 +169,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_feedImageViewRetryButton_isVisibleOnImageURLLoadError() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         
         let view0 = sut.simulateFeedImageViewVisible(at: 0)
@@ -179,7 +190,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_feedImageViewRetryButton_isVisibleOnInvalidImageData() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage()])
         
         let view = sut.simulateFeedImageViewVisible(at: 0)
@@ -195,7 +206,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         
         let view0 = sut.simulateFeedImageViewVisible(at: 0)
@@ -218,7 +229,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until image is near visible")
         
@@ -234,7 +245,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no cancelled image URL requests until image is not near visible")
         
@@ -247,7 +258,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage()])
         
         let view = sut.simulateFeedImageViewNotVisible(at: 0)
@@ -258,7 +269,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     
     func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
-        sut.simulateApperance()
+        sut.simulateAppearance()
         
         let exp = expectation(description: "Waiting for background queue")
         DispatchQueue.global().async {
@@ -272,7 +283,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_loadImageDataCompletion_dispatchedFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         loader.completeFeedLoading(with: [makeImage()])
         _ = sut.simulateFeedImageViewVisible(at: 0)
         
@@ -288,7 +299,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
         
-        sut.simulateApperance()
+        sut.simulateAppearance()
         
         XCTAssertNil(sut.errorMessage)
         
@@ -319,7 +330,7 @@ final class FeedUIIntegrationTests: XCTestCase {
 }
 
 private extension FeedViewController {
-    func simulateApperance() {
+    func simulateAppearance() {
         if !isViewLoaded {
             loadViewIfNeeded()
             replaceRefreshControlWithFakeForiOS17Support()
