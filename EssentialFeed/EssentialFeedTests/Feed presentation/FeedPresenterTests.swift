@@ -40,7 +40,7 @@ class FeedPresenterTests: XCTestCase {
     func test_didFinishLoadingFeedWithError_didplaysLocalizedErrorMessageAndStopsLoading() {
         let (sut, view) = makeSUT()
         
-        sut.didFinishLoadingFeedWithError(with: anyNSError())
+        sut.didFinishLoadingFeed(with: anyNSError())
         
         XCTAssertEqual(view.messages, [.display(errorMessage: localized("FEED_VIEW_CONNECTION_ERROR")), .display(isLoading: false)])
     }
