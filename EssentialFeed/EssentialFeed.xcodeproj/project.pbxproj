@@ -67,6 +67,7 @@
 		1BEC8A5B2D4FCEF900AC58A7 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1BF40B622DBFE7AB00FD898D /* RemoteImageCommentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF40B612DBFE7AB00FD898D /* RemoteImageCommentsLoader.swift */; };
 		1BF40B642DBFE91E00FD898D /* ImageCommentsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF40B632DBFE91E00FD898D /* ImageCommentsMapper.swift */; };
+		1BF40B6A2DBFF23B00FD898D /* ImageComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF40B692DBFF22E00FD898D /* ImageComment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +189,7 @@
 		1BD9C0A82D0B7BAE00B091A9 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		1BF40B612DBFE7AB00FD898D /* RemoteImageCommentsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageCommentsLoader.swift; sourceTree = "<group>"; };
 		1BF40B632DBFE91E00FD898D /* ImageCommentsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsMapper.swift; sourceTree = "<group>"; };
+		1BF40B692DBFF22E00FD898D /* ImageComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageComment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -310,6 +312,7 @@
 		080EDEF321B6DA7E00813479 /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1BF40B682DBFF21B00FD898D /* Image Comments Feature */,
 				1BB372C72D8F10B300FF629C /* Feed Presentation */,
 				1B492C9D2D1E35CE002B8413 /* Feed Cache */,
 				1B0847E52CFFC99C003F2778 /* Feed API */,
@@ -470,6 +473,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1BF40B682DBFF21B00FD898D /* Image Comments Feature */ = {
+			isa = PBXGroup;
+			children = (
+				1BF40B692DBFF22E00FD898D /* ImageComment.swift */,
+			);
+			path = "Image Comments Feature";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -737,6 +748,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF40B6A2DBFF23B00FD898D /* ImageComment.swift in Sources */,
 				1B8504512D8F258A002BF300 /* FeedViewModel.swift in Sources */,
 				1B41A20F2D3864F500D36B2A /* CoreDataHelpers.swift in Sources */,
 				1BA5C1F32D04D9BB004A1BCD /* FeedItemsMapper.swift in Sources */,
