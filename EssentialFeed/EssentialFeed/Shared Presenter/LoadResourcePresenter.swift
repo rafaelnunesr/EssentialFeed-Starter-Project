@@ -8,12 +8,13 @@
 import Foundation
 
 public protocol ResourceView {
-    func display(_ viewModel: String)
+    associatedtype ResourceViewModel
+    func display(_ viewModel: ResourceViewModel)
 }
 
-public class LoadResourcePresenter {
-    public typealias Mapper = (String) -> String
-    private let resourceView: ResourceView
+public class LoadResourcePresenter<Resource, View: ResourceView> {
+    public typealias Mapper = (Resource) -> View.ResourceViewModel
+    private let resourceView: View
     private let loadingView: FeedLoadingView
     private let errorView: FeedErrorView
     private let mapper: Mapper
@@ -25,7 +26,7 @@ public class LoadResourcePresenter {
                 comment: "Error message displayed when we can't load the image feed from the server")
     }
     
-    public init(resourceView: ResourceView,
+    public init(resourceView: View,
                 loadingView: FeedLoadingView,
                 errorView: FeedErrorView,
                 mapper: @escaping Mapper) {
@@ -40,7 +41,7 @@ public class LoadResourcePresenter {
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
-    public func didFinishLoading(with resource: String) {
+    public func didFinishLoading(with resource: Resource) {
         resourceView.display(mapper(resource))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
