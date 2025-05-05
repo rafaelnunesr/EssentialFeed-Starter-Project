@@ -204,6 +204,7 @@
 		1B0D48032D1B28A3002C8DC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedLocalizationTestHelpers.swift,
 				SharedTestHelpers.swift,
 				"XCTestCase+MemoryLeakTracking.swift",
 			);
@@ -212,6 +213,7 @@
 		1BD008D32D4070BD00CAC2DF /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedLocalizationTestHelpers.swift,
 				SharedTestHelpers.swift,
 				"XCTestCase+MemoryLeakTracking.swift",
 			);
@@ -220,6 +222,7 @@
 		1BEC8A602D4FF33D00AC58A7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				SharedLocalizationTestHelpers.swift,
 				"XCTestCase+MemoryLeakTracking.swift",
 			);
 			target = 1BCA0A352D4AC3B00086CB70 /* EssentialFeediOSTests */;
