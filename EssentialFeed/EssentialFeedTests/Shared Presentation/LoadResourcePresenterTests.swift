@@ -16,7 +16,7 @@ class LoadResourcePresenterTests: XCTestCase {
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages")
     }
     
-    func test_didStartLoading_disoplaysNoErrorMessageAndStartsLoading() {
+    func test_didStartLoading_displaysNoErrorMessageAndStartsLoading() {
         let (sut, view) = makeSUT()
         
         sut.didStartLoading()
@@ -34,8 +34,18 @@ class LoadResourcePresenterTests: XCTestCase {
         XCTAssertEqual(view.messages, [.display(resourceView: "resource view model"), .display(isLoading: false)])
     }
     
-    func test_didFinishLoadingithError_didplaysLocalizedErrorMessageAndStopsLoading() {
+    func test_didFinishLoadingWithError_didplaysLocalizedErrorMessageAndStopsLoading() {
         let (sut, view) = makeSUT()
+        
+        sut.didFinishLoading(with: anyNSError())
+        
+        XCTAssertEqual(view.messages, [.display(errorMessage: localized("GENERIC_CONNECTION_ERROR")), .display(isLoading: false)])
+    }
+    
+    func test_didFinishLoadingWithMapperError_didplaysLocalizedErrorMessageAndStopsLoading() {
+        let (sut, view) = makeSUT(mapper: { resource in
+            throw anyNSError()
+        })
         
         sut.didFinishLoading(with: anyNSError())
         
