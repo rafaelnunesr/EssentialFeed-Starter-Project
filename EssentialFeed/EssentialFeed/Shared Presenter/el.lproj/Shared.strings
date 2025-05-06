@@ -1,10 +1,9 @@
 /* 
-  Feed.strings
+  Shared.strings
   EssentialFeed
 
-  Created by Rafael Rios on 06/03/25.
+  Created by Rafael Rios on 05/05/25.
   
 */
 
-"FEED_VIEW_TITLE" = "To Feed μου";
 "GENERIC_CONNECTION_ERROR" = "Δεν ήταν δυνατή η σύνδεση με τον διακομιστή";
