@@ -328,7 +328,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     
     // MARK: - HELPERS
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
         let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher)
         trackForMemoryLeaks(loader, file: file, line: line)
@@ -345,7 +345,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     }
 }
 
-private extension FeedViewController {
+private extension ListViewController {
     func simulateAppearance() {
         if !isViewLoaded {
             loadViewIfNeeded()

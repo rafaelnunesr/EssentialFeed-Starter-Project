@@ -18,8 +18,8 @@ public protocol CellController {
     func cancelLoad()
 }
 
-final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
-    private var onViewIsAppearing: ((FeedViewController) -> Void)?
+final public class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
+    private var onViewIsAppearing: ((ListViewController) -> Void)?
     public var delegate: FeedViewControllerDelegate?
     
     private var loadingControllers = [IndexPath: CellController]()
