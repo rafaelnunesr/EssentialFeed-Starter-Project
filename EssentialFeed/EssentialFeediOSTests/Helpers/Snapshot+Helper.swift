@@ -28,7 +28,7 @@ extension XCTestCase {
         }
     }
     
-    private func record(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
+    func record(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
         let snapshotURL = makeSnapshotURL(named: name, file: file)
         let snapshotData = makeSnapshotData(for: snapshot, file: file, line: line)
         
@@ -36,6 +36,8 @@ extension XCTestCase {
             try FileManager.default.createDirectory(at: snapshotURL.deletingLastPathComponent(),
                                                     withIntermediateDirectories: true)
             try snapshotData?.write(to: snapshotURL)
+            
+            XCTFail("Record succeeded - use `assert` to compare the snapshot from now on.", file: file, line: line)
         } catch {
             XCTFail("Failed to record snapshot with error: \(error)", file: file, line: line)
         }
