@@ -25,8 +25,7 @@ public final class FeedImageCellController: NSObject {
     }
 }
 
-extension FeedImageCellController: CellController {
-    
+extension FeedImageCellController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     private func cancelLoad() {
         releaseCellForReuse()
         delegate.didCancelImageRequest()
