@@ -61,13 +61,13 @@ class FeedAcceptanceTests: XCTestCase {
     private func launch(
         httpClient: HTTPClientStub = .offline,
         store: InMemoryFeedStore = .empty
-    ) -> FeedViewController {
+    ) -> ListViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
-        sut.window = UIWindow()
+        sut.window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 1))
         sut.configureWindow()
         
         let nav = sut.window?.rootViewController as? UINavigationController
-        let vc = nav?.topViewController as! FeedViewController
+        let vc = nav?.topViewController as! ListViewController
         vc.simulateAppearance()
         return vc
     }
@@ -174,16 +174,16 @@ class FeedAcceptanceTests: XCTestCase {
     
 }
 
-private extension FeedViewController {
-    func simulateAppearance() {
-        if !isViewLoaded {
-            loadViewIfNeeded()
-            replaceRefreshControlWithFakeForiOS17PlusSupport()
-        }
-        
-        beginAppearanceTransition(true, animated: false)
-        endAppearanceTransition()
-    }
+private extension ListViewController {
+//    func simulateAppearance() {
+//        if !isViewLoaded {
+//            loadViewIfNeeded()
+//            replaceRefreshControlWithFakeForiOS17PlusSupport()
+//        }
+//        
+//        beginAppearanceTransition(true, animated: false)
+//        endAppearanceTransition()
+//    }
     
     private func replaceRefreshControlWithFakeForiOS17PlusSupport() {
         let fakeRefreshControl = FakeUIRefreshControl()
