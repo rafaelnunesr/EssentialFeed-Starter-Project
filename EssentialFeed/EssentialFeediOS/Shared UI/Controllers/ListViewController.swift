@@ -14,7 +14,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     
     private var loadingControllers = [IndexPath: CellController]()
     
-    @IBOutlet private(set) public var errorView: ErrorView?
+    private(set) public var errorView = ErrorView()
     
     private var tableModel = [CellController]() {
         didSet { tableView.reloadData() }
@@ -25,9 +25,33 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureErrorView()
+        
         onViewIsAppearing = { vc in
             vc.onViewIsAppearing = nil
             self.refresh()
+        }
+    }
+    
+    private func configureErrorView() {
+        let container = UIView()
+        container.backgroundColor = .clear
+        container.addSubview(errorView)
+        
+        errorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            errorView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: errorView.trailingAnchor),
+            errorView.topAnchor.constraint(equalTo: container.topAnchor),
+            container.bottomAnchor.constraint(equalTo: errorView.bottomAnchor)
+        ])
+        
+        tableView.tableHeaderView = container
+        
+        errorView.onHide =  { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.sizeTableHeaderToFit()
+            self?.tableView.endUpdates()
         }
     }
     
@@ -51,11 +75,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     public func display(_ viewModel: ResourceErrorViewModel) {
-        if let errorMessage = viewModel.message {
-            errorView?.show(message: errorMessage)
-        } else {
-            errorView?.hideMessage()
-        }
+        errorView.message = viewModel.message
     }
     
     public override func viewIsAppearing(_ animated: Bool) {
