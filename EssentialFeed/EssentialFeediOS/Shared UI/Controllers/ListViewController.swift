@@ -29,9 +29,18 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
         
         dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
+        configureTraitCollectionObservers()
         onViewIsAppearing = { vc in
             vc.onViewIsAppearing = nil
             self.refresh()
+        }
+    }
+    
+    private func configureTraitCollectionObservers() {
+        registerForTraitChanges(
+            [UITraitPreferredContentSizeCategory.self]
+        ) { (self: Self, previous: UITraitCollection) in
+            self.tableView.reloadData()
         }
     }
     
@@ -72,12 +81,6 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
         snapshot.appendSections([0])
         snapshot.appendItems(cellControllers, toSection: 0)
         dataSource.apply(snapshot)
-    }
-    
-    public override func traitCollectionDidChange(_ previous: UITraitCollection?) {
-        if previous?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            tableView.reloadData()
-        }
     }
     
     public func display(_ viewModel: ResourceLoadingViewModel) {
