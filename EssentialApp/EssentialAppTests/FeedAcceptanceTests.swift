@@ -174,17 +174,7 @@ class FeedAcceptanceTests: XCTestCase {
     
 }
 
-private extension ListViewController {
-//    func simulateAppearance() {
-//        if !isViewLoaded {
-//            loadViewIfNeeded()
-//            replaceRefreshControlWithFakeForiOS17PlusSupport()
-//        }
-//        
-//        beginAppearanceTransition(true, animated: false)
-//        endAppearanceTransition()
-//    }
-    
+private extension ListViewController {    
     private func replaceRefreshControlWithFakeForiOS17PlusSupport() {
         let fakeRefreshControl = FakeUIRefreshControl()
         
