@@ -68,7 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController.pushViewController(comments, animated: true)
     }
     
-    private func makeRemoteFeedLoaderWithLocalfallback() -> AnyPublisher<[FeedImage], Error> {
+    private func makeRemoteFeedLoaderWithLocalfallback() -> AnyPublisher<Paginated<FeedImage>, Error> {
         let url = baseURL.appendingPathComponent("/v1/feed")
         
         return httpClient
@@ -76,6 +76,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .tryMap(FeedItemsMapper.map)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
+            .map {
+                Paginated(items: $0)
+            }
+            .eraseToAnyPublisher()
     }
     
     private func makeRemoteCommentsLoader(for url: URL) -> ()  -> AnyPublisher<[ImageComment], Error> {
