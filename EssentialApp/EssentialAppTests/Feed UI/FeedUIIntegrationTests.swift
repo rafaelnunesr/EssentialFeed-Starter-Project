@@ -364,7 +364,10 @@ class FeedUIIntegrationTests: XCTestCase {
 //        XCTAssertEqual(loader.loadMoreCallCount, 0, "Expected no requests before until load more action")
 //        
 //        sut.simulateLoadMoreFeedAction()
-//        XCTAssertEqual(loader.loadMoreCallCount, 1, "Expected a load more request")
+//        XCTAssertEqual(loader.loadMoreCallCount, 1, "Expected load more request")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1, "Expected no request while loading more")
 //    }
     
     // MARK: - HELPERS
