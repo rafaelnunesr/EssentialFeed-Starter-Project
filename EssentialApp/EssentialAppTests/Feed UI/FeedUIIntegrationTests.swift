@@ -67,23 +67,27 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
     
-//    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
-//        let image0 = makeImage(description: "a description", location: "a location")
-//        let image1 = makeImage(description: nil, location: "another location")
-//        let image2 = makeImage(description: "another description", location: nil)
-//        let image3 = makeImage(description: nil, location: nil)
-//        let (sut, loader) = makeSUT()
-//        
-//        sut.simulateAppearance()
-//        assertThat(sut, isRendering: [])
-//        
-//        loader.completeFeedLoading(with: [image0], at: 0)
-//        assertThat(sut, isRendering: [image0])
-//        
-//        sut.simulateUserInitiatedFeedReload()
-//        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 1)
-//        assertThat(sut, isRendering: [image0, image1, image2, image3])
-//    }
+    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
+        let image0 = makeImage(description: "a description", location: "a location")
+        let image1 = makeImage(description: nil, location: "another location")
+        let image2 = makeImage(description: "another description", location: nil)
+        let image3 = makeImage(description: nil, location: nil)
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateAppearance()
+        assertThat(sut, isRendering: [])
+        
+        loader.completeFeedLoading(with: [image0], at: 0)
+        assertThat(sut, isRendering: [image0])
+        
+        sut.simulateLoadMoreFeedAction()
+        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 0)
+        assertThat(sut, isRendering: [image0, image1, image2, image3])
+        
+        sut.simulateUserInitiatedReload()
+        loader.completeFeedLoading(with: [image0, image1], at: 1)
+        assertThat(sut, isRendering: [image0, image1])
+    }
     
     func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
         let (sut, loader) = makeSUT()
@@ -104,8 +108,12 @@ class FeedUIIntegrationTests: XCTestCase {
 //        loader.completeFeedLoading(with: [image0], at: 0)
 //        assertThat(sut, isRendering: [image0])
 //        
-//        sut.simulateUserInitiatedFeedReload()
+//        sut.simulateUserInitiatedReload()
 //        loader.completeFeedLoadingWithError(at: 1)
+//        assertThat(sut, isRendering: [image0])
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        loader.completeLoadMoreWithError(at: 0)
 //        assertThat(sut, isRendering: [image0])
 //    }
     
@@ -312,6 +320,20 @@ class FeedUIIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+//    func test_loadLoadMoreCompletion_dispatchesFromBackgroundToMainThread() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading(at: 0)
+//        
+//        let exp = expectation(description: "Waiting for background queue")
+//        DispatchQueue.global().async {
+//            loader.completeLoadMore()
+//            exp.fulfill()
+//        }
+//        
+//        wait(for: [exp], timeout: 1)
+//    }
+    
     func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
         
@@ -347,6 +369,10 @@ class FeedUIIntegrationTests: XCTestCase {
         
         sut.simulateAppearance()
         sut.tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 400)
+        loader.completeFeedLoading(with: [image0], at: 0)
+        assertThat(sut, isRendering: [image0])
+        
+        sut.simulateLoadMoreFeedAction()
         loader.completeFeedLoading(with: [image0, image1], at: 0)
         assertThat(sut, isRendering: [image0, image1])
         
