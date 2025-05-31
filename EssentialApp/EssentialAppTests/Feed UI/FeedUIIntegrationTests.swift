@@ -445,6 +445,22 @@ class FeedUIIntegrationTests: XCTestCase {
 //        XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
 //    }
     
+//    func test_tapOnLoadMoreErrorView_loadsMore() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading()
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1)
+//        
+//        sut.simulateTapOnLoadMoreFeedError()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1)
+//        
+//        loader.completeLoadMoreWithError()
+//        sut.simulateTapOnLoadMoreFeedError()
+//        XCTAssertEqual(loader.loadMoreCallCount, 2)
+//    }
+    
     // MARK: - HELPERS
     
     private func makeSUT(selection: @escaping (FeedImage) -> Void = {  _ in },
@@ -533,6 +549,12 @@ extension ListViewController {
         let delegate = tableView.delegate
         let index = IndexPath(row: 0, section: feedLoadMoreSection)
         delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
+    }
+    
+    func simulateTapOnLoadMoreFeedError() {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
     }
     
     private var feedLoadMoreSection: Int { 1 }
