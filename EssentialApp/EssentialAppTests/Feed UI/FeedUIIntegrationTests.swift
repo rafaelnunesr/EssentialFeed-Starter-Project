@@ -67,23 +67,27 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
     
-//    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
-//        let image0 = makeImage(description: "a description", location: "a location")
-//        let image1 = makeImage(description: nil, location: "another location")
-//        let image2 = makeImage(description: "another description", location: nil)
-//        let image3 = makeImage(description: nil, location: nil)
-//        let (sut, loader) = makeSUT()
-//        
-//        sut.simulateAppearance()
-//        assertThat(sut, isRendering: [])
-//        
-//        loader.completeFeedLoading(with: [image0], at: 0)
-//        assertThat(sut, isRendering: [image0])
-//        
-//        sut.simulateUserInitiatedFeedReload()
-//        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 1)
-//        assertThat(sut, isRendering: [image0, image1, image2, image3])
-//    }
+    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
+        let image0 = makeImage(description: "a description", location: "a location")
+        let image1 = makeImage(description: nil, location: "another location")
+        let image2 = makeImage(description: "another description", location: nil)
+        let image3 = makeImage(description: nil, location: nil)
+        let (sut, loader) = makeSUT()
+        
+        sut.simulateAppearance()
+        assertThat(sut, isRendering: [])
+        
+        loader.completeFeedLoading(with: [image0], at: 0)
+        assertThat(sut, isRendering: [image0])
+        
+        sut.simulateLoadMoreFeedAction()
+        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 0)
+        assertThat(sut, isRendering: [image0, image1, image2, image3])
+        
+        sut.simulateUserInitiatedReload()
+        loader.completeFeedLoading(with: [image0, image1], at: 1)
+        assertThat(sut, isRendering: [image0, image1])
+    }
     
     func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
         let (sut, loader) = makeSUT()
@@ -104,8 +108,12 @@ class FeedUIIntegrationTests: XCTestCase {
 //        loader.completeFeedLoading(with: [image0], at: 0)
 //        assertThat(sut, isRendering: [image0])
 //        
-//        sut.simulateUserInitiatedFeedReload()
+//        sut.simulateUserInitiatedReload()
 //        loader.completeFeedLoadingWithError(at: 1)
+//        assertThat(sut, isRendering: [image0])
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        loader.completeLoadMoreWithError(at: 0)
 //        assertThat(sut, isRendering: [image0])
 //    }
     
@@ -312,6 +320,20 @@ class FeedUIIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+//    func test_loadLoadMoreCompletion_dispatchesFromBackgroundToMainThread() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading(at: 0)
+//        
+//        let exp = expectation(description: "Waiting for background queue")
+//        DispatchQueue.global().async {
+//            loader.completeLoadMore()
+//            exp.fulfill()
+//        }
+//        
+//        wait(for: [exp], timeout: 1)
+//    }
+    
     func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
         
@@ -347,6 +369,10 @@ class FeedUIIntegrationTests: XCTestCase {
         
         sut.simulateAppearance()
         sut.tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 400)
+        loader.completeFeedLoading(with: [image0], at: 0)
+        assertThat(sut, isRendering: [image0])
+        
+        sut.simulateLoadMoreFeedAction()
         loader.completeFeedLoading(with: [image0, image1], at: 0)
         assertThat(sut, isRendering: [image0, image1])
         
@@ -355,6 +381,85 @@ class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [])
         RunLoop.current.run(until: Date()+1)
     }
+    
+//    func test_loadMoreActions_requestMoreFromLoader() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading()
+//        
+//        XCTAssertEqual(loader.loadMoreCallCount, 0, "Expected no requests before until load more action")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1, "Expected load more request")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1, "Expected no request while loading more")
+//        
+//        loader.completeLoadMore(lastPage: false, at: 0)
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 2, "Expected request after load more completed with more pages")
+//        
+//        loader.completeLoadMoreWithError(at: 1)
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 3, "Expected request after load more failure")
+//        
+//        loader.completeLoadMore(lastPage: true, at: 2)
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 3, "Expected no request after loading all pages")
+//    }
+    
+//    func test_loadingMoreIndicator_isVisibleWhileLoadingMore() {
+//        let (sut, loader) = makeSUT()
+//        
+//        sut.simulateAppearance()
+//        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once view is loaded")
+//        
+//        loader.completeFeedLoading(at: 0)
+//        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once loading completes successfully")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertTrue(sut.isShowingLoadMoreFeedIndicator, "Expected loading indicator on load more action")
+//        
+//        loader.completeFeedLoading(at: 0)
+//        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once user initiated loading completes successfully")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertTrue(sut.isShowingLoadMoreFeedIndicator, "Expected loading indicator on second load more action")
+//        
+//        loader.completeLoadMoreWithError(at: 1)
+//        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once user initiated loading completes with error")
+//    }
+    
+//    func test_loadMoreCompletion_rendersErrorMessageOnError() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading()
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
+//        
+//        loader.completeLoadMoreWithError()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, loadError)
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
+//    }
+    
+//    func test_tapOnLoadMoreErrorView_loadsMore() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading()
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1)
+//        
+//        sut.simulateTapOnLoadMoreFeedError()
+//        XCTAssertEqual(loader.loadMoreCallCount, 1)
+//        
+//        loader.completeLoadMoreWithError()
+//        sut.simulateTapOnLoadMoreFeedError()
+//        XCTAssertEqual(loader.loadMoreCallCount, 2)
+//    }
     
     // MARK: - HELPERS
     
@@ -436,6 +541,38 @@ extension ListViewController {
         let ds = tableView.dataSource
         let index = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: index)
+    }
+    
+    func simulateLoadMoreFeedAction() {
+        guard let view = cell(row: 0, section: feedLoadMoreSection) else { return }
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
+    }
+    
+    func simulateTapOnLoadMoreFeedError() {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
+    }
+    
+    private var feedLoadMoreSection: Int { 1 }
+    
+    var isShowingLoadMoreFeedIndicator: Bool {
+        return loadMoreFeedCell()?.isLoading == true
+    }
+    
+    private func loadMoreFeedCell() -> LoadMoreCell? {
+        cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
+    }
+    
+    var loadMoreFeedErrorMessage: String? {
+        loadMoreFeedCell()?.message
+    }
+    
+    var canLoadMoreFeed: Bool {
+        loadMoreFeedCell() != nil
     }
 }
 
