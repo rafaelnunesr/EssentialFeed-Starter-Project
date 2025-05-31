@@ -430,6 +430,21 @@ class FeedUIIntegrationTests: XCTestCase {
 //        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once user initiated loading completes with error")
 //    }
     
+//    func test_loadMoreCompletion_rendersErrorMessageOnError() {
+//        let (sut, loader) = makeSUT()
+//        sut.simulateAppearance()
+//        loader.completeFeedLoading()
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
+//        
+//        loader.completeLoadMoreWithError()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, loadError)
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
+//    }
+    
     // MARK: - HELPERS
     
     private func makeSUT(selection: @escaping (FeedImage) -> Void = {  _ in },
@@ -528,6 +543,10 @@ extension ListViewController {
     
     private func loadMoreFeedCell() -> LoadMoreCell? {
         cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
+    }
+    
+    var loadMoreFeedErrorMessage: String? {
+        loadMoreFeedCell()?.message
     }
 }
 
