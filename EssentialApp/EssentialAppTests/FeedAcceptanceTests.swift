@@ -42,12 +42,15 @@ class FeedAcceptanceTests: XCTestCase {
 //        let onlineFeed = launch(httpClient: .online(response), store: sharedStore)
 //        onlineFeed.simulateFeedImageViewVisible(at: 0)
 //        onlineFeed.simulateFeedImageViewVisible(at: 1)
+//        onlineFeed.simulateLoadMoreFeedAction()
+//        onlineFeed.simulateFeedImageViewVisible(at: 2)
 //        
 //        let offlineFeed = launch(httpClient: .offline, store: sharedStore)
 //        
 //        XCTAssertEqual(offlineFeed.numberOfRenderedFeedImageViews(), 2)
-//        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData())
-//        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData())
+//        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData1())
+//        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData2())
+//        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 3), makeImageData3())
 //    }
     
     
