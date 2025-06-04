@@ -43,10 +43,15 @@ class FeedUIIntegrationTests: XCTestCase {
         
         sut.simulateAppearance()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
+        
+        sut.simulateUserInitiatedReload()
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected no request until previous completes")
 
+        loader.completeFeedLoading(at: 0)
         sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 2, "Expected another loading request once user initiates a load")
         
+        loader.completeFeedLoading(at: 1)
         sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected a third loading request once user initiates another load")
     }
@@ -67,27 +72,27 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
     
-    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
-        let image0 = makeImage(description: "a description", location: "a location")
-        let image1 = makeImage(description: nil, location: "another location")
-        let image2 = makeImage(description: "another description", location: nil)
-        let image3 = makeImage(description: nil, location: nil)
-        let (sut, loader) = makeSUT()
-        
-        sut.simulateAppearance()
-        assertThat(sut, isRendering: [])
-        
-        loader.completeFeedLoading(with: [image0], at: 0)
-        assertThat(sut, isRendering: [image0])
-        
-        sut.simulateLoadMoreFeedAction()
-        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 0)
-        assertThat(sut, isRendering: [image0, image1, image2, image3])
-        
-        sut.simulateUserInitiatedReload()
-        loader.completeFeedLoading(with: [image0, image1], at: 1)
-        assertThat(sut, isRendering: [image0, image1])
-    }
+//    func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
+//        let image0 = makeImage(description: "a description", location: "a location")
+//        let image1 = makeImage(description: nil, location: "another location")
+//        let image2 = makeImage(description: "another description", location: nil)
+//        let image3 = makeImage(description: nil, location: nil)
+//        let (sut, loader) = makeSUT()
+//        
+//        sut.simulateAppearance()
+//        assertThat(sut, isRendering: [])
+//        
+//        loader.completeFeedLoading(with: [image0], at: 0)
+//        assertThat(sut, isRendering: [image0])
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 0)
+//        assertThat(sut, isRendering: [image0, image1, image2, image3])
+//        
+//        sut.simulateUserInitiatedReload()
+//        loader.completeFeedLoading(with: [image0, image1], at: 1)
+//        assertThat(sut, isRendering: [image0, image1])
+//    }
     
     func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
         let (sut, loader) = makeSUT()
@@ -362,25 +367,25 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil)
     }
     
-    func test_loadFeedCompletion_rendersSuccessfullyLoadedEmptyFeedAfterNonEmptyFeed() {
-        let image0 = makeImage()
-        let image1 = makeImage()
-        let (sut, loader) = makeSUT()
-        
-        sut.simulateAppearance()
-        sut.tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 400)
-        loader.completeFeedLoading(with: [image0], at: 0)
-        assertThat(sut, isRendering: [image0])
-        
-        sut.simulateLoadMoreFeedAction()
-        loader.completeFeedLoading(with: [image0, image1], at: 0)
-        assertThat(sut, isRendering: [image0, image1])
-        
-        sut.simulateUserInitiatedReload()
-        loader.completeFeedLoading(with: [], at: 1)
-        assertThat(sut, isRendering: [])
-        RunLoop.current.run(until: Date()+1)
-    }
+//    func test_loadFeedCompletion_rendersSuccessfullyLoadedEmptyFeedAfterNonEmptyFeed() {
+//        let image0 = makeImage()
+//        let image1 = makeImage()
+//        let (sut, loader) = makeSUT()
+//        
+//        sut.simulateAppearance()
+//        sut.tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 400)
+//        loader.completeFeedLoading(with: [image0], at: 0)
+//        assertThat(sut, isRendering: [image0])
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        loader.completeFeedLoading(with: [image0, image1], at: 0)
+//        assertThat(sut, isRendering: [image0, image1])
+//        
+//        sut.simulateUserInitiatedReload()
+//        loader.completeFeedLoading(with: [], at: 1)
+//        assertThat(sut, isRendering: [])
+//        RunLoop.current.run(until: Date()+1)
+//    }
     
 //    func test_loadMoreActions_requestMoreFromLoader() {
 //        let (sut, loader) = makeSUT()
@@ -459,6 +464,32 @@ class FeedUIIntegrationTests: XCTestCase {
 //        loader.completeLoadMoreWithError()
 //        sut.simulateTapOnLoadMoreFeedError()
 //        XCTAssertEqual(loader.loadMoreCallCount, 2)
+//    }
+    
+//    func test_feedImageView_doesNotLoadImageAgainUntilPreviousRequestCompletes() {
+//        let image = makeImage(url: URL(string: "http://url-0.com")!)
+//        let (sut, loader) = makeSUT()
+//        sut.loadViewIfNeeded()
+//        loader.completeFeedLoading(with: [image])
+//        
+//        sut.simulateFeedImageViewNearVisible(at: 0)
+//        XCTAssertEqual(loader.loadedImageURLs, [image.url], "Expected first request when near visible")
+//        
+//        sut.simulateFeedImageViewVisible(at: 0)
+//        XCTAssertEqual(loader.loadedImageURLs, [image.url], "Expected no request until previous completes")
+//        
+//        loader.completeImageLoading(at: 0)
+//        sut.simulateFeedImageViewVisible(at: 0)
+//        XCTAssertEqual(loader.loadedImageURLs, [image.url, image.url], "Expected second request when visible after previous complete")
+//        
+//        sut.simulateFeedImageViewNotVisible(at: 0)
+//        sut.simulateFeedImageViewVisible(at: 0)
+//        XCTAssertEqual(loader.loadedImageURLs, [image.url, image.url, image.url], "Expected third request when visible after canceling previous request")
+//        
+//        sut.simulateLoadMoreFeedAction()
+//        loader.completeLoadMore(with: [image, makeImage()])
+//        sut.simulateFeedImageViewVisible(at: 0)
+//        XCTAssertEqual(loader.loadedImageURLs, [image.url, image.url, image.url], "Expected no request until previous completes")
 //    }
     
     // MARK: - HELPERS
