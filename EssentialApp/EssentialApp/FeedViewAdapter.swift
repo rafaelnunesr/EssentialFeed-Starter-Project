@@ -18,10 +18,7 @@ final class FeedViewAdapter: ResourceView {
     private typealias ImageDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>>
     private typealias LoadMorePresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedImage>, FeedViewAdapter>
     
-    init(currentFeed: [FeedImage: CellController] = [:],
-         controller: ListViewController,
-         imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher,
-         selection: @escaping (FeedImage) -> Void) {
+    init(currentFeed: [FeedImage: CellController] = [:], controller: ListViewController, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher, selection: @escaping (FeedImage) -> Void) {
         self.currentFeed = currentFeed
         self.controller = controller
         self.imageLoader = imageLoader
@@ -29,9 +26,9 @@ final class FeedViewAdapter: ResourceView {
     }
     
     func display(_ viewModel: Paginated<FeedImage>) {
-        guard let controller else { return }
-        var currentFeed = self.currentFeed
+        guard let controller = controller else { return }
         
+        var currentFeed = self.currentFeed
         let feed: [CellController] = viewModel.items.map { model in
             if let controller = currentFeed[model] {
                 return controller
@@ -41,23 +38,18 @@ final class FeedViewAdapter: ResourceView {
                 imageLoader(model.url)
             })
             
-            let view = FeedImageCellController(viewModel: FeedImagePresenter.map(model),
-                                               delegate: adapter,
-                                               selection: { [selection] in
-                selection(model)
-            })
+            let view = FeedImageCellController(
+                viewModel: FeedImagePresenter.map(model),
+                delegate: adapter,
+                selection: { [selection] in
+                    selection(model)
+                })
             
             adapter.presenter = LoadResourcePresenter(
                 resourceView: WeakRefVirtualProxy(view),
                 loadingView: WeakRefVirtualProxy(view),
                 errorView: WeakRefVirtualProxy(view),
-                mapper: { data in
-                    guard let image = UIImage(data: data) else {
-                        throw InvalidImageData()
-                    }
-                    
-                    return image
-                })
+                mapper: UIImage.tryMake)
             
             let controller = CellController(id: model, view)
             currentFeed[model] = controller
@@ -70,18 +62,17 @@ final class FeedViewAdapter: ResourceView {
         }
         
         let loadMoreAdapter = LoadMorePresentationAdapter(loader: loadMorePublisher)
-        
         let loadMore = LoadMoreCellController(callback: loadMoreAdapter.loadResource)
         
         loadMoreAdapter.presenter = LoadResourcePresenter(
-            resourceView: FeedViewAdapter(currentFeed: currentFeed,
-                                          controller: controller,
-                                          imageLoader: imageLoader,
-                                          selection: selection),
+            resourceView: FeedViewAdapter(
+                currentFeed: currentFeed,
+                controller: controller,
+                imageLoader: imageLoader,
+                selection: selection
+            ),
             loadingView: WeakRefVirtualProxy(loadMore),
-            errorView: WeakRefVirtualProxy(loadMore),
-            mapper: { $0 }
-        )
+            errorView: WeakRefVirtualProxy(loadMore))
         
         let loadMoreSection = [CellController(id: UUID(), loadMore)]
         
@@ -89,4 +80,13 @@ final class FeedViewAdapter: ResourceView {
     }
 }
 
-private struct InvalidImageData: Error {}
+extension UIImage {
+    struct InvalidImageData: Error {}
+    
+    static func tryMake(data: Data) throws -> UIImage {
+        guard let image = UIImage(data: data) else {
+            throw InvalidImageData()
+        }
+        return image
+    }
+}

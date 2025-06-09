@@ -14,11 +14,22 @@ import EssentialFeed
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
+    private lazy var scheduler: AnyDispatchQueueScheduler = {
+        if let store = store as? CoreDataFeedStore {
+            return .scheduler(for: store)
+        }
+        
+        return DispatchQueue(
+            label: "com.essentialdeveloper.infra.queue",
+            qos: .userInitiated
+        ).eraseToAnyScheduler()
+    }()
+    
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
     }()
     
-    private lazy var logger = Logger(subsystem: "com.essentialdeveloper.EssentialFeed", category: "main")
+    private lazy var logger = Logger(subsystem: "com.essentialdeveloper.EssentialAppCaseStudy", category: "main")
     
     private lazy var store: FeedStore & FeedImageDataStore = {
         do {
@@ -27,24 +38,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     .defaultDirectoryURL()
                     .appendingPathComponent("feed-store.sqlite"))
         } catch {
-            assertionFailure("Failed to instantiate CoreDate store with error: \(error.localizedDescription)")
-            logger.fault(" Failed to instantiate CoreDate store with error: \(error.localizedDescription)")
-            return NullStore()
+            assertionFailure("Failed to instantiate CoreData store with error: \(error.localizedDescription)")
+            logger.fault("Failed to instantiate CoreData store with error: \(error.localizedDescription)")
+            return InMemoryFeedStore()
         }
     }()
-
+    
     private lazy var localFeedLoader: LocalFeedLoader = {
         LocalFeedLoader(store: store, currentDate: Date.init)
     }()
     
     private lazy var baseURL = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed")!
-
+    
     private lazy var navigationController = UINavigationController(
         rootViewController: FeedUIComposer.feedComposedWith(
             feedLoader: makeRemoteFeedLoaderWithLocalFallback,
             imageLoader: makeLocalImageLoaderWithRemoteFallback,
             selection: showComments))
-
+    
     convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
         self.init()
         self.httpClient = httpClient
@@ -53,7 +64,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
-    
+        
         window = UIWindow(windowScene: scene)
         configureWindow()
     }
@@ -64,7 +75,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        localFeedLoader.validateCache { _ in }
+        scheduler.schedule { [localFeedLoader, logger] in
+            do {
+                try localFeedLoader.validateCache()
+            } catch {
+                logger.error("Failed to validate cache with error: \(error.localizedDescription)")
+            }
+        }
     }
     
     private func showComments(for image: FeedImage) {
@@ -84,19 +101,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<Paginated<FeedImage>, Error> {
         makeRemoteFeedLoader()
+            .receive(on: scheduler)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
             .map(makeFirstPage)
             .eraseToAnyPublisher()
     }
-        
+    
     private func makeRemoteLoadMoreLoader(last: FeedImage?) -> AnyPublisher<Paginated<FeedImage>, Error> {
         localFeedLoader.loadPublisher()
             .zip(makeRemoteFeedLoader(after: last))
             .map { (cachedItems, newItems) in
                 (cachedItems + newItems, newItems.last)
-            }.map(makePage)
+            }
+            .map(makePage)
+            .receive(on: scheduler)
             .caching(to: localFeedLoader)
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
     }
     
     private func makeRemoteFeedLoader(after: FeedImage? = nil) -> AnyPublisher<[FeedImage], Error> {
@@ -120,82 +142,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
         let localImageLoader = LocalFeedImageDataLoader(store: store)
-
+        
         return localImageLoader
             .loadImageDataPublisher(from: url)
-            .logCacheMisses(url: url, logger: logger)
-            .fallback(to: { [httpClient, logger] in
+            .fallback(to: { [httpClient, scheduler] in
                 httpClient
                     .getPublisher(url: url)
-                    .logErrors(url: url, logger: logger)
-                    .logElapsedTime(url: url, logger: logger)
                     .tryMap(FeedImageDataMapper.map)
+                    .receive(on: scheduler)
                     .caching(to: localImageLoader, using: url)
+                    .eraseToAnyPublisher()
             })
-    }
-}
-
-extension Publisher {
-    func logCacheMisses(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
-        return handleEvents(
-            receiveCompletion: { result in
-                if case .failure = result {
-                    logger.trace("Cache miss for url: \(url)")
-                }
-            }
-        ).eraseToAnyPublisher()
-    }
-    
-    func logErrors(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
-        return handleEvents(
-            receiveCompletion: { result in
-                if case let .failure(error) = result {
-                    logger.trace("Failed to load url: \(url) with error: \(error.localizedDescription)")
-                }
-            }
-        ).eraseToAnyPublisher()
-    }
-    
-    func logElapsedTime(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
-        var startTime = CACurrentMediaTime()
-        
-        return handleEvents(
-            receiveSubscription: { _ in
-                logger.trace("Started logging url: \(url)")
-                startTime = CACurrentMediaTime()
-            },
-            receiveCompletion: { _ in
-                let elapsed = CACurrentMediaTime() - startTime
-                
-                logger.trace("Finished loading url: \(url), in \(elapsed) seconds")
-            }
-        ).eraseToAnyPublisher()
-    }
-}
-
-private class HTTPClientProfilingDecorator: HTTPClient {
-    private let decoratee: HTTPClient
-    private let logger: Logger
-    
-    init(decoratee: HTTPClient, logger: Logger) {
-        self.decoratee = decoratee
-        self.logger = logger
-    }
-    
-    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> any HTTPClientTask {
-        logger.trace("Started loading url: \(url)")
-        
-        let startTime = CACurrentMediaTime()
-        
-        return decoratee.get(from: url) { [logger] result in
-            if case let .failure(error) = result {
-                logger.trace("Failed to load url: \(url) with error \(error.localizedDescription)")
-            }
-            
-            let elapsed = CACurrentMediaTime() - startTime
-            
-            logger.trace("Finished loading url: \(url), in \(elapsed) seconds")
-            completion(result)
-        }
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
     }
 }

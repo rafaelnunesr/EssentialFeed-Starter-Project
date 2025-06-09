@@ -1,11 +1,9 @@
 //
 //  UIControl+TestHelpers.swift
-//  EssentialFeed
+//  EssentialAppTests
 //
-//  Created by Rafael Rios on 11/02/25.
+//  Created by Rafael Rios on 09/06/25.
 //
-
-import UIKit
 
 import UIKit
 
