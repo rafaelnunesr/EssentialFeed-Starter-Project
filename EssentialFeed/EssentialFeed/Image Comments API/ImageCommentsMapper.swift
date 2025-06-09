@@ -38,7 +38,7 @@ public final class ImageCommentsMapper {
         guard isOK(response), let root = try? decoder.decode(Root.self, from: data) else {
             throw Error.invalidData
         }
-
+        
         return root.comments
     }
     

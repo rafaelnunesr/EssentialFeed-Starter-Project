@@ -1,8 +1,8 @@
 //
-//  RemoteFeedLoaderTests.swift
-//  EssentialFeedTests
+//  RemoteFeedImageDataLoaderTests.swift
+//  EssentialFeed
 //
-//  Created by Rafael Rios on 03/12/24.
+//  Created by Rafael Rios on 26/03/25.
 //
 
 import XCTest
@@ -11,8 +11,8 @@ import EssentialFeed
 class FeedItemsMapperTests: XCTestCase {
     
     func test_map_throwsErrorOnNon200HTTPResponse() throws {
-        let samples = [199, 201, 300, 400, 500]
         let json = makeItemsJSON([])
+        let samples = [199, 201, 300, 400, 500]
         
         try samples.forEach { code in
             XCTAssertThrowsError(
@@ -31,7 +31,7 @@ class FeedItemsMapperTests: XCTestCase {
     
     func test_map_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() throws {
         let emptyListJSON = makeItemsJSON([])
-
+        
         let result = try FeedItemsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: 200))
         
         XCTAssertEqual(result, [])
@@ -69,4 +69,5 @@ class FeedItemsMapperTests: XCTestCase {
         
         return (item, json)
     }
+    
 }

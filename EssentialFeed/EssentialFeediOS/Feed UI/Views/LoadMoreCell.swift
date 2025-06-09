@@ -8,8 +8,9 @@
 import UIKit
 
 public class LoadMoreCell: UITableViewCell {
+    
     private lazy var spinner: UIActivityIndicatorView = {
-       let spinner = UIActivityIndicatorView(style: .medium)
+        let spinner = UIActivityIndicatorView(style: .medium)
         contentView.addSubview(spinner)
         
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +37,7 @@ public class LoadMoreCell: UITableViewCell {
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             contentView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 8),
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8)
+            contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8),
         ])
         
         return label
@@ -57,4 +58,5 @@ public class LoadMoreCell: UITableViewCell {
         get { messageLabel.text }
         set { messageLabel.text = newValue }
     }
+    
 }

@@ -12,7 +12,7 @@ public struct ResourceErrorViewModel {
         return ResourceErrorViewModel(message: nil)
     }
     
-    public static func error(message: String) -> ResourceErrorViewModel {
+    static func error(message: String) -> ResourceErrorViewModel {
         return ResourceErrorViewModel(message: message)
     }
 }

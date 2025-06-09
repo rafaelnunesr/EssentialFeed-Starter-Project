@@ -1,17 +1,17 @@
 //
-//  FeedItemsMapper.swift
+//  RemoteFeedImageDataLoader.swift.swift
 //  EssentialFeed
 //
-//  Created by Rafael Rios on 07/12/24.
+//  Created by Rafael Rios on 27/03/25.
 //
 
 import Foundation
 
 public final class FeedItemsMapper {
     private struct Root: Decodable {
-        private let items: [Item]
+        private let items: [RemoteFeedItem]
         
-        private struct Item: Decodable {
+        private struct RemoteFeedItem: Decodable {
             let id: UUID
             let description: String?
             let location: String?
@@ -31,7 +31,7 @@ public final class FeedItemsMapper {
         guard response.isOK, let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw Error.invalidData
         }
-
+        
         return root.images
     }
 }

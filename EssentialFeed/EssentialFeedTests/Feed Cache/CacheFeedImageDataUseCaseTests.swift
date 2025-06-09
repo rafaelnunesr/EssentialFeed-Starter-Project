@@ -1,26 +1,26 @@
 //
 //  CacheFeedImageDataUseCaseTests.swift
-//  EssentialFeed
+//  EssentialFeedTests
 //
-//  Created by Rafael Rios on 30/03/25.
+//  Created by Rafael Rios on 09/06/25.
 //
 
 import XCTest
 import EssentialFeed
 
 class CacheFeedImageDataUseCaseTests: XCTestCase {
-
+    
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
-
+        
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
-
+    
     func test_saveImageDataForURL_requestsImageDataInsertionForURL() {
         let (sut, store) = makeSUT()
         let url = anyURL()
         let data = anyData()
-
+        
         try? sut.save(data, for: url)
         
         XCTAssertEqual(store.receivedMessages, [.insert(data: data, for: url)])
@@ -42,26 +42,26 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
             store.completeInsertionSuccessfully()
         })
     }
-    
+        
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedImageDataStoreSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedImageDataStoreSpy) {
         let store = FeedImageDataStoreSpy()
         let sut = LocalFeedImageDataLoader(store: store)
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
     }
-     
+    
     private func failed() -> Result<Void, Error> {
         return .failure(LocalFeedImageDataLoader.SaveError.failed)
     }
     
-    private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: Result<Void, Error>, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: Result<Void, Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         action()
-        
+
         let receivedResult = Result { try sut.save(anyData(), for: anyURL()) }
-        
+
         switch (receivedResult, expectedResult) {
         case (.success, .success):
             break
@@ -74,4 +74,5 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
             XCTFail("Expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
         }
     }
+    
 }
