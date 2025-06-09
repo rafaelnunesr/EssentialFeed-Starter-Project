@@ -8,11 +8,11 @@
 import Foundation
 
 func anyNSError() -> NSError {
-    NSError(domain: "any error", code: 0)
+    return NSError(domain: "any error", code: 0)
 }
 
 func anyURL() -> URL {
-    URL(string: "http://any-url.com")!
+    return URL(string: "http://any-url.com")!
 }
 
 func anyData() -> Data {

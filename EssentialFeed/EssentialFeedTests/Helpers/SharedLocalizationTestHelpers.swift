@@ -7,8 +7,8 @@
 
 import XCTest
 
-func assertLocalizedKeyAndValuesExist(in bundle: Bundle, _ table: String, file: StaticString = #file, line: UInt = #line) {
-    let localizationBundles = allLocalizationBundles(in: bundle, file: file, line: line)
+func assertLocalizedKeyAndValuesExist(in presentationBundle: Bundle, _ table: String, file: StaticString = #filePath, line: UInt = #line) {
+    let localizationBundles = allLocalizationBundles(in: presentationBundle, file: file, line: line)
     let localizedStringKeys = allLocalizedStringKeys(in: localizationBundles, table: table, file: file, line: line)
     
     localizationBundles.forEach { (bundle, localization) in
@@ -18,7 +18,7 @@ func assertLocalizedKeyAndValuesExist(in bundle: Bundle, _ table: String, file: 
             if localizedString == key {
                 let language = Locale.current.localizedString(forLanguageCode: localization) ?? ""
                 
-                XCTFail("Missing \(language) (\(localization)) localized string for key: '\(key)' in table: '\(table)'",  file: file, line: line)
+                XCTFail("Missing \(language) (\(localization)) localized string for key: '\(key)' in table: '\(table)'", file: file, line: line)
             }
         }
     }
@@ -26,7 +26,7 @@ func assertLocalizedKeyAndValuesExist(in bundle: Bundle, _ table: String, file: 
 
 private typealias LocalizedBundle = (bundle: Bundle, localization: String)
 
-private func allLocalizationBundles(in bundle: Bundle, file: StaticString = #file, line: UInt = #line) -> [LocalizedBundle] {
+private func allLocalizationBundles(in bundle: Bundle, file: StaticString = #filePath, line: UInt = #line) -> [LocalizedBundle] {
     return bundle.localizations.compactMap { localization in
         guard
             let path = bundle.path(forResource: localization, ofType: "lproj"),
@@ -35,12 +35,12 @@ private func allLocalizationBundles(in bundle: Bundle, file: StaticString = #fil
             XCTFail("Couldn't find bundle for localization: \(localization)", file: file, line: line)
             return nil
         }
-
+        
         return (localizedBundle, localization)
     }
 }
 
-private func allLocalizedStringKeys(in bundles: [LocalizedBundle], table: String, file: StaticString = #file, line: UInt = #line) -> Set<String> {
+private func allLocalizedStringKeys(in bundles: [LocalizedBundle], table: String, file: StaticString = #filePath, line: UInt = #line) -> Set<String> {
     return bundles.reduce([]) { (acc, current) in
         guard
             let path = current.bundle.path(forResource: table, ofType: "strings"),
@@ -50,7 +50,7 @@ private func allLocalizedStringKeys(in bundles: [LocalizedBundle], table: String
             XCTFail("Couldn't load localized strings for localization: \(current.localization)", file: file, line: line)
             return acc
         }
-
+        
         return acc.union(Set(keys))
     }
 }

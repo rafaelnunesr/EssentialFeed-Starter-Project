@@ -31,6 +31,7 @@ public class LoadMoreCellController: NSObject, UITableViewDataSource, UITableVie
         
         offsetObserver = tableView.observe(\.contentOffset, options: .new) { [weak self] (tableView, _) in
             guard tableView.isDragging else { return }
+            
             self?.reloadIfNeeded()
         }
     }
@@ -45,16 +46,17 @@ public class LoadMoreCellController: NSObject, UITableViewDataSource, UITableVie
     
     private func reloadIfNeeded() {
         guard !cell.isLoading else { return }
+        
         callback()
     }
 }
 
 extension LoadMoreCellController: ResourceLoadingView, ResourceErrorView {
-    public func display(_ viewModel: ResourceLoadingViewModel) {
-        cell.isLoading = viewModel.isLoading
-    }
-    
     public func display(_ viewModel: ResourceErrorViewModel) {
         cell.message = viewModel.message
+    }
+    
+    public func display(_ viewModel: ResourceLoadingViewModel) {
+        cell.isLoading = viewModel.isLoading
     }
 }

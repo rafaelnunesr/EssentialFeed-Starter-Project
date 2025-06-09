@@ -1,8 +1,8 @@
 //
 //  SharedTestHelpers.swift
-//  EssentialApp
+//  EssentialAppTests
 //
-//  Created by Rafael Rios on 01/04/25.
+//  Created by Rafael Rios on 09/06/25.
 //
 
 import Foundation
@@ -24,6 +24,10 @@ func uniqueFeed() -> [FeedImage] {
     return [FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())]
 }
 
+private class DummyView: ResourceView {
+    func display(_ viewModel: Any) {}
+}
+
 var loadError: String {
     LoadResourcePresenter<Any, DummyView>.loadError
 }
@@ -34,8 +38,4 @@ var feedTitle: String {
 
 var commentsTitle: String {
     ImageCommentsPresenter.title
-}
-
-private class DummyView: ResourceView {
-    func display(_ viewModel: Any) {}
 }

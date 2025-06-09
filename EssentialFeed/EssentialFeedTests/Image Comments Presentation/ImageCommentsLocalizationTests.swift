@@ -12,8 +12,9 @@ class ImageCommentsLocalizationTests: XCTestCase {
     
     func test_localizedStrings_haveKeysAndValuesForAllSupportedLocalizations() {
         let table = "ImageComments"
-        let bundle = Bundle(for: FeedImagePresenter.self)
+        let bundle = Bundle(for: ImageCommentsPresenter.self)
         
         assertLocalizedKeyAndValuesExist(in: bundle, table)
     }
+    
 }

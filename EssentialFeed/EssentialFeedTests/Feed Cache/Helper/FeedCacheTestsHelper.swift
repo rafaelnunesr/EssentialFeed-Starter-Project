@@ -9,7 +9,7 @@ import Foundation
 import EssentialFeed
 
 func uniqueImage() -> FeedImage {
-    FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())
+    return FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())
 }
 
 func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
@@ -19,15 +19,11 @@ func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
 }
 
 extension Date {
-    private var feedCacheMaxAgeInDays: Int {
-        return 7
-    }
-    
-    func maxFeedCacheMaxAge() -> Date {
-        adding(days: -feedCacheMaxAgeInDays)
-    }
-    
     func minusFeedCacheMaxAge() -> Date {
         return adding(days: -feedCacheMaxAgeInDays)
+    }
+    
+    private var feedCacheMaxAgeInDays: Int {
+        return 7
     }
 }
